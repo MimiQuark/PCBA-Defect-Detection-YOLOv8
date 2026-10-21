@@ -52,6 +52,7 @@ def find_best_model(explicit: str | Path | None = None) -> Path:
         raise FileNotFoundError(f"模型文件不存在: {explicit}")
 
     candidates = [
+        PROJECT_ROOT / "artifacts" / "models" / "pcba_yolov8n_best.pt",
         PROJECT_ROOT / "models" / "pcba_yolov8n_best.pt",
         PROJECT_ROOT / "runs" / "train" / "pcba_yolov8n_960" / "weights" / "best.pt",
     ]

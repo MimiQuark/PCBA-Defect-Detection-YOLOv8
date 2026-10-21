@@ -1,6 +1,6 @@
 {
-  "model": "H:\\Codex\\yolov8_pcba_defect\\models\\pcba_yolov8n_best.pt",
-  "data": "H:\\Codex\\yolov8_pcba_defect\\data\\pcba_yolo\\dataset.yaml",
+  "model": "artifacts/models/pcba_yolov8n_best.pt",
+  "data": "data/pcba_yolo/dataset.yaml",
   "split": "test",
   "imgsz": 960,
   "batch": 2,
@@ -60,5 +60,5 @@
     "loss": 0.0008513328308860461,
     "postprocess": 0.7456160003008941
   },
-  "save_dir": "H:\\Codex\\yolov8_pcba_defect\\runs\\eval\\test_960"
+  "save_dir": "artifacts/results/evaluation"
 }

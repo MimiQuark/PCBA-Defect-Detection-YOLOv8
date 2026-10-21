@@ -41,3 +41,11 @@ Final evaluation uses the held-out 150-image test split at 960 input resolution.
 ## Reproducibility
 
 Use the CLI documented in the repository README. The best PyTorch and ONNX weights, training configuration, metrics, and report are included under `artifacts/`.
+
+## License and Provenance
+
+- Training framework: Ultralytics YOLOv8 8.4.174, AGPL-3.0.
+- Derived weights and ONNX export: AGPL-3.0 (inherited from the framework/checkpoint metadata).
+- Repository source code: MIT (see `LICENSE`).
+- Training data: `data_y.zip` is internal/proprietary data. It is not redistributed, and no redistribution authorization is granted; users must obtain permission from the data owner before use or redistribution.
+- Metrics protocol: Precision/Recall are the Ultralytics best-F1 operating point on the validation split, not the Gradio app's default confidence threshold (0.25).
