@@ -1,5 +1,8 @@
 # YOLOv8 PCBA 五类缺陷检测
 
+[![CI](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/actions/workflows/ci.yml/badge.svg)](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/actions/workflows/ci.yml)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8)
+
 本项目以 `data_y.zip` 中的 PCBA 图像和 Pascal VOC XML 标注为数据源，使用 Ultralytics YOLOv8 完成数据准备、分析、训练、测试、推理、ONNX 导出和 Gradio 网页演示。项目默认面向无 NVIDIA GPU 的 Windows CPU 环境。
 
 ## 类别
@@ -29,7 +32,7 @@
 
 ## GitHub 发布内容
 
-仓库地址：https://github.com/MimiQuark/yolov8-pcba-defect-detection
+仓库地址：https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8
 
 提交到 Git 的内容包括源代码、配置、测试、GitHub Actions、最优 PyTorch 权重、ONNX 模型、训练与测试指标、网页截图、Word 报告和 PDF 报告。原始数据集约 700 MB、训练运行目录和预测输出不纳入 Git 历史，可通过 README 中的数据准备流程重新生成。
 
@@ -42,9 +45,9 @@
 
 ## 项目主页与下载
 
-- GitHub Pages：https://mimiquark.github.io/yolov8-pcba-defect-detection/
-- 源码仓库：https://github.com/MimiQuark/yolov8-pcba-defect-detection
-- Release 与模型下载：https://github.com/MimiQuark/yolov8-pcba-defect-detection/releases
+- GitHub Pages：https://mimiquark.github.io/PCBA-Defect-Detection-YOLOv8/
+- 源码仓库：https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8
+- Release 与模型下载：https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/releases
 
 GitHub Pages 用于展示项目文档、指标、图表和下载入口。Gradio 交互服务依赖 Python 运行环境，不能直接托管在 GitHub Pages 上。
 
@@ -53,7 +56,7 @@ GitHub Pages 用于展示项目文档、指标、图表和下载入口。Gradio 
 在 PowerShell 中执行：
 
 ```powershell
-cd yolov8_pcba_defect
+cd PCBA-Defect-Detection-YOLOv8
 .\scripts\setup.ps1
 .\scripts\prepare.ps1
 .\scripts\train_smoke.ps1
@@ -172,7 +175,7 @@ pcba app --host 127.0.0.1 --port 7860
 ## 项目结构
 
 ```text
-yolov8_pcba_defect/
+PCBA-Defect-Detection-YOLOv8/
 ├─ configs/                 训练配置
 ├─ docs/                    GitHub Pages 项目主页
 ├─ data/
