@@ -1,25 +1,26 @@
 # YOLOv8 PCBA 五类缺陷检测
 
-[![CI](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/actions/workflows/ci.yml/badge.svg)](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/actions/workflows/ci.yml)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8)
+![CI](https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/actions/workflows/ci.yml/badge.svg)
+
+![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github\&logoColor=white)
 
 本项目以 `data_y.zip` 中的 PCBA 图像和 Pascal VOC XML 标注为数据源，使用 Ultralytics YOLOv8 完成数据准备、分析、训练、测试、推理、ONNX 导出和 Gradio 网页演示。项目默认面向无 NVIDIA GPU 的 Windows CPU 环境。
 
 ## 类别
 
-| ID | 英文类别 | 中文含义 |
-|---:|---|---|
-| 0 | open_solder | 开焊 |
-| 1 | short | 短路 |
-| 2 | skewing | 偏移 |
-| 3 | solder_bridge | 连锡 |
-| 4 | tombstoning | 立碑 |
+| ID | 英文类别          | 中文含义 |
+| -: | ------------- | ---- |
+|  0 | open_solder   | 开焊   |
+|  1 | short         | 短路   |
+|  2 | skewing       | 偏移   |
+|  3 | solder_bridge | 连锡   |
+|  4 | tombstoning   | 立碑   |
 
 只要检测到任一类别，业务结论即为“不合格”；未检测到目标则结论为“合格”。
 
 ## 数据准备
 
-将原始 `data_y.zip` 放到 `data/source/data_y.zip`，或者通过 `pcba prepare --archive <路径>` 显式指定压缩包位置。原始数据不会提交到 Git。
+将原始 `data_y.zip` 放到 `data/source/data_y.zip`，或者通过 `pcba prepare --archive <路径>` 显式指定压缩包位置。该压缩包为**内部数据**，不会提交到 Git，仓库也未获得再分发授权；复现前需向数据所有者取得授权。
 
 ## 数据概况
 
@@ -32,7 +33,7 @@
 
 ## GitHub 发布内容
 
-仓库地址：https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8
+仓库地址：<https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8>
 
 提交到 Git 的内容包括源代码、配置、测试、GitHub Actions、最优 PyTorch 权重、ONNX 模型、训练与测试指标、网页截图、Word 报告和 PDF 报告。原始数据集约 700 MB、训练运行目录和预测输出不纳入 Git 历史，可通过 README 中的数据准备流程重新生成。
 
@@ -45,9 +46,9 @@
 
 ## 项目主页与下载
 
-- GitHub Pages：https://mimiquark.github.io/PCBA-Defect-Detection-YOLOv8/
-- 源码仓库：https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8
-- Release 与模型下载：https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/releases
+- GitHub Pages：<https://mimiquark.github.io/PCBA-Defect-Detection-YOLOv8/>
+- 源码仓库：<https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8>
+- Release 与模型下载：<https://github.com/MimiQuark/PCBA-Defect-Detection-YOLOv8/releases>
 
 GitHub Pages 用于展示项目文档、指标、图表和下载入口。Gradio 交互服务依赖 Python 运行环境，不能直接托管在 GitHub Pages 上。
 
@@ -110,7 +111,7 @@ pcba train --config configs\train_cpu.yaml
 
 平衡 CPU 配置：
 
-- 模型：`models/yolov8n.pt`（项目内已放置预训练权重）
+- 模型：`yolov8n.pt`（Ultralytics 首次训练时自动下载并缓存，不随仓库提交）
 - 输入：960
 - batch：2
 - epochs：40
@@ -162,15 +163,14 @@ pcba app --host 127.0.0.1 --port 7860
 
 浏览器访问 `http://127.0.0.1:7860`。页面支持图片上传、摄像头、视频、置信度/IoU/输入尺寸调节、检测明细和 CSV 下载。
 
-
 ## 本次实验结果
 
 - 正式训练在 CPU 上运行约 2.96 小时，第 36 轮触发早停，最佳权重来自第 26 轮。
-- 测试集总体 Precision 94.18%，Recall 77.42%，mAP50 87.94%，mAP50-95 53.13%。
+- 测试集总体 Precision 94.18%，Recall 77.42%，mAP50 87.94%，mAP50-95 53.13%。其中 Precision/Recall 是 Ultralytics 在验证集上按最佳 F1 置信度阈值报告的，不等同于应用默认 `conf=0.25` 时的表现。
 - 逐类别 mAP50：open_solder 82.07%，short 99.50%，skewing 80.54%，solder_bridge 99.03%，tombstoning 78.57%。
 - `open_solder` 的召回率相对较低，是后续优化时最需要重点补充样本和调整阈值的类别。
 - 验证集与测试集来自不同编号区间，验证指标明显低于测试指标，提示当前固定编号划分存在批次或采集条件差异；正式项目应采用分层或交叉验证划分。
-- 模型、ONNX、测试指标、网页截图和报告均保存在 `models/`、`runs/eval/`、`reports/` 目录。
+- 发布用权重、ONNX、测试指标、网页截图和报告分别保存在 `artifacts/models/`、`artifacts/results/evaluation/`、`artifacts/reports/`；`models/`、`runs/`、`reports/` 是本地运行时目录（已忽略）。
 
 ## 项目结构
 
@@ -197,7 +197,7 @@ PCBA-Defect-Detection-YOLOv8/
 .\.venv\Scripts\python.exe -m ruff check src tests
 ```
 
-测试覆盖坐标转换、光照处理、类别映射、合格判定、CLI 命令和已准备数据完整性。
+测试覆盖坐标转换、光照处理、类别映射、合格判定、CLI 命令、发布权重发现和已准备数据完整性（无本地数据集时该项 skip）。CI 另有 ONNX 产物 job，验证发布版 ONNX 可加载、输入/输出形状与数值有限；完整的 PT/ONNX 推理对齐与上传解析仍未纳入 CI。
 
 ## 常见问题
 
@@ -206,4 +206,13 @@ PCBA-Defect-Detection-YOLOv8/
 - 训练内存不足：降低 `imgsz` 和 `batch`，例如 `640 / 4`。
 - CPU 训练时间过长：先使用 `configs/smoke_cpu.yaml` 验证流程，再运行完整训练。
 - 中文路径读取失败：项目和 YOLO 数据统一使用英文路径；原始压缩包可以继续放在原位置。
-- 网页无输出：确认 `models/pcba_yolov8n_best.pt` 或训练目录中的 `best.pt` 已生成。
+- 网页无输出：确认 `artifacts/models/pcba_yolov8n_best.pt`、`models/pcba_yolov8n_best.pt` 或训练目录中的 `best.pt` 已生成（`find_best_model` 会按此顺序查找）。
+
+## License 与第三方声明
+
+详见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
+
+- 本仓库代码采用 MIT（见 `LICENSE`）。
+- 训练与推理依赖 **Ultralytics YOLOv8（8.4.174，AGPL-3.0）**。由 Ultralytics 派生的权重 `artifacts/models/pcba_yolov8n_best.pt` 与 `pcba_yolov8n.onnx` 按 **AGPL-3.0** 分发；如用于闭源/商业场景，请遵守 AGPL 或取得 Ultralytics 商业许可。
+- `data_y.zip` 为**内部数据**，不随仓库提交，仓库也未获得再分发授权。使用者需自行向数据所有者取得授权，仓库不对该数据再分发。
+- 数据集许可与代码许可不同，不能仅以根目录 MIT 覆盖模型权重与数据。

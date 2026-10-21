@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import io
+import json
 import logging
+import shutil
 import statistics
 import xml.etree.ElementTree as ET
 import zipfile
@@ -138,12 +140,25 @@ def prepare_dataset(
         raise FileNotFoundError(f"数据集压缩包不存在: {archive_path}")
 
     dataset_yaml = output_dir / "dataset.yaml"
+    summary_path = output_dir / "dataset_summary.json"
     if dataset_yaml.exists() and not overwrite:
-        LOGGER.info("数据集已存在: %s；如需重新生成请添加 --overwrite", output_dir)
+        if summary_path.exists():
+            LOGGER.info("数据集已存在，返回已有摘要: %s（如需重新生成请添加 --overwrite）",
+                        output_dir)
+            return json.loads(summary_path.read_text(encoding="utf-8"))
+        raise FileExistsError(
+            f"数据集已存在但缺少摘要，请使用 --overwrite 重新生成: {output_dir}")
 
+    # 覆盖生成时清空旧划分，避免上次残留的图片/标签污染新数据集。
     for split in SPLITS:
-        ensure_dir(output_dir / "images" / split)
-        ensure_dir(output_dir / "labels" / split)
+        for kind in ("images", "labels"):
+            split_dir = output_dir / kind / split
+            if overwrite and split_dir.exists():
+                shutil.rmtree(split_dir)
+            elif split_dir.exists() and any(split_dir.iterdir()) and not overwrite:
+                raise FileExistsError(
+                    f"目标目录已有文件，请使用 --overwrite: {split_dir}")
+            ensure_dir(split_dir)
 
     image_counts: Counter[str] = Counter()
     object_counts: Counter[str] = Counter()
@@ -155,7 +170,10 @@ def prepare_dataset(
     with zipfile.ZipFile(archive_path) as zf:
         for split in SPLITS:
             image_entries, annotation_entries = _iter_split_entries(zf, split)
-            ordered_stems = sorted(image_entries, key=lambda value: int(value) if value.isdigit() else value)
+            ordered_stems = sorted(
+                image_entries,
+                key=lambda value: (0, int(value)) if value.isdigit() else (1, value),
+            )
             for index, stem in enumerate(ordered_stems, start=1):
                 image_name = image_entries[stem]
                 annotation_name = annotation_entries[stem]

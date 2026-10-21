@@ -1,3 +1,10 @@
+"""重新生成实验报告（docx）。
+
+注意：完整重生成需要先运行 `pcba prepare` / `pcba train` / `pcba eval`，
+因为脚本读取 `data/analysis/summary.json` 等运行产物；仓库发布版只有
+`artifacts/` 下的最终证据（metrics / 曲线 / PDF）。训练与评估产物已默认
+指向 `artifacts/results/`，缺少的图片会被跳过。
+"""
 from __future__ import annotations
 
 import csv
@@ -14,10 +21,10 @@ from docx.shared import Cm, Pt
 
 ROOT = Path(__file__).resolve().parents[1]
 ANALYSIS_DIR = ROOT / 'data' / 'analysis'
-TRAIN_DIR = ROOT / 'runs' / 'train' / 'pcba_yolov8n_960'
-EVAL_DIR = ROOT / 'runs' / 'eval' / 'test_960'
+TRAIN_DIR = ROOT / 'artifacts' / 'results' / 'training'
+EVAL_DIR = ROOT / 'artifacts' / 'results' / 'evaluation'
 OUTPUT = ROOT / 'reports' / 'PCBA_YOLOv8实验报告.docx'
-ASSETS = ROOT / 'reports' / 'assets'
+ASSETS = ROOT / 'artifacts' / 'results'
 
 
 def load_json(path: Path) -> dict:

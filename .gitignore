@@ -18,9 +18,10 @@ htmlcov/
 /outputs/
 /models/
 /reports/
-pcba_yolov8n_best.onnx
-pcba_yolov8n_best.pt
-yolov8n.pt
+/pcba_yolov8n_best.onnx
+/pcba_yolov8n_best.pt
+/yolov8n.pt
+/pcba_yolov8n.onnx
 
 # Keep curated GitHub artifacts
 !/artifacts/
