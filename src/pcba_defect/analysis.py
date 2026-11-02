@@ -196,6 +196,8 @@ def analyze_dataset(dataset_dir: str | Path, output_dir: str | Path) -> dict[str
     plt.savefig(output_dir / "class_distribution.png", dpi=180)
     plt.close()
 
+    # 注意：该图由原始 PCBA 图像绘制。原始数据未获再分发授权，
+    # 本地生成后不要提交到 Git，也不要对外发布。
     _draw_samples(samples, output_dir / "samples_annotated.jpg")
     write_json(output_dir / "summary.json", summary)
     LOGGER.info("数据分析完成: %s", output_dir)

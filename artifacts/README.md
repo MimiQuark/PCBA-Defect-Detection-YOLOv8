@@ -19,8 +19,9 @@
 ## 报告与图表
 
 - `reports/`：Word 和 PDF 实验报告。
-- `results/analysis/`：数据分布和标注样例。
+- `results/analysis/`：数据分布统计与图表（不含原始图像样例）。
 - `results/training/`：训练配置、逐轮日志和训练曲线。
 - `results/evaluation/`：测试集指标和归一化混淆矩阵。
-- `results/web_demo.png`：Gradio 网页实际检测截图。
-- `results/prediction_351.png`：测试样图 351 的最终检测结果。
+
+> 原始 PCBA 图像未获再分发授权，因此仓库不包含标注样例、预测样图和网页截图。
+> 这些产物可在本地由脚本生成，但不应重新提交。

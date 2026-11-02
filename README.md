@@ -100,7 +100,9 @@ pcba analyze --dataset data\pcba_yolo --output data\analysis
 - `object_sizes.csv`：每个目标框的像素尺寸和面积占比。
 - `brightness_hist.png`：亮度直方图。
 - `class_distribution.png`：各类别数量图。
-- `samples_annotated.jpg`：标注样例。
+
+> 标注样例图（`samples_annotated.jpg`）由脚本在本地生成，但涉及未获再分发授权的原始图像，
+> 因此**不提交到仓库**。如需查看，请在获得数据所有者许可后本地运行 `pcba analyze`。
 
 ### 训练
 
@@ -166,7 +168,7 @@ pcba app --host 127.0.0.1 --port 7860
 ## 本次实验结果
 
 - 正式训练在 CPU 上运行约 2.96 小时，第 36 轮触发早停，最佳权重来自第 26 轮。
-- 测试集总体 Precision 94.18%，Recall 77.42%，mAP50 87.94%，mAP50-95 53.13%。其中 Precision/Recall 是 Ultralytics 在验证集上按最佳 F1 置信度阈值报告的，不等同于应用默认 `conf=0.25` 时的表现。
+- 测试集总体 Precision 94.18%，Recall 77.42%，mAP50 87.94%，mAP50-95 53.13%。其中 Precision/Recall 是 Ultralytics 在**被测划分（test）上**选最佳 F1 置信度阈值得到的工作点，属于偏乐观口径，不等同于固定 `conf=0.25` 时的表现；mAP 不受阈值选择影响。
 - 逐类别 mAP50：open_solder 82.07%，short 99.50%，skewing 80.54%，solder_bridge 99.03%，tombstoning 78.57%。
 - `open_solder` 的召回率相对较低，是后续优化时最需要重点补充样本和调整阈值的类别。
 - 验证集与测试集来自不同编号区间，验证指标明显低于测试指标，提示当前固定编号划分存在批次或采集条件差异；正式项目应采用分层或交叉验证划分。
